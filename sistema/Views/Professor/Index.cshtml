@@ -1,0 +1,72 @@
+﻿@{
+    ViewData["Title"] = "Principal";
+}
+
+@if (ViewBag.NomeProfessor == null)
+{
+    <a asp-controller="Login" style="color: #005f73;">Login</a>
+}
+else
+{
+    <button type="button" class="btn" style="background-color: #005f73; color: white;" data-bs-toggle="modal" data-bs-target="#cadastrarTurma">Cadastrar Turma</button>
+
+    <h4 style="color: #005f73;">Turmas</h4>
+
+    <table class="table table-striped">
+        <thead style="background-color: #005f73; color: white;">
+            <tr>
+                <th>Número</th>
+                <th>Nome</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var turma in Model)
+            {
+                <tr>
+                    <td>@turma.TurmaId</td>
+                    <td>@turma.Nome</td>
+                    <td>
+                        <form asp-controller="Professor" asp-action="ExcluirTurma" method="post" onsubmit="return confirm('Você tem certeza que deseja excluir esta turma?')">
+                            <input type="hidden" name="turmaId" value="@turma.TurmaId" />
+                            <button type="submit" class="btn btn-danger">Excluir</button>
+                        </form>
+
+                        <form asp-controller="Atividade" asp-action="Index" asp-route-turmaId="@turma.TurmaId">
+                            <input type="hidden" name="turmaId" value="@turma.TurmaId" />
+                            <button type="submit" class="btn btn-info">Visualizar</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (TempData["Mensagem"] != null)
+    {
+        <p style="color:#e63946;">@TempData["Mensagem"]</p>
+    }
+
+    <!-- Modal -->
+    <div class="modal fade" id="cadastrarTurma" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="cadastrarTurma" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="background-color: #e0fbfc;">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="cadastrarTurmaLabel" style="color: #005f73;">Cadastrar Turma</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form asp-action="CadastrarTurma" asp-controller="Professor">
+                    <div class="modal-body">
+                        <label class="form-label" style="color: #005f73;">Nome da Turma</label>
+                        <input type="text" name="nomeTurma" class="form-control" required />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn" style="background-color: #005f73; color: white;">Confirmar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}

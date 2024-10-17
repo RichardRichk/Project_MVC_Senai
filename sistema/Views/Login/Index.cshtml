@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+
+<form asp-controller="Login" asp-action="Logar" method="post" class="w-50 p-5 mx-auto mt-5 shadow rounded d-flex flex-column align-items-center gap-3" style="background-color: #f0f8ff;">
+    <h2 style="color: #005f73;">Bem Vindo</h2>
+
+    <div class="w-100">
+        <label style="color: #005f73;">Email</label>
+        <input type="email" name="email" required class="form-control" value="richk@gmail.com" style="border-color: #005f73;" />
+    </div>
+    <div class="w-100">
+        <label style="color: #005f73;">Senha</label>
+        <input type="password" name="senha" required class="form-control" value="admin1234" style="border-color: #005f73;" />
+    </div>
+
+    <div>
+        <button type="submit" class="btn" style="background-color: #005f73; color: white;">Entrar</button>
+    </div>
+
+</form>
+
+@if (TempData["Mensagem"] != null)
+{
+    <p class="text-center mt-3" style="color: #e63946;">@TempData["Mensagem"]</p>
+}
